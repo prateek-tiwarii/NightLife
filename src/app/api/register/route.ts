@@ -4,9 +4,12 @@ import { NextResponse , NextRequest } from "next/server";
 
 export  async function POST( request:NextRequest , res:NextResponse){
 
+    const { name, email, password, phone, age, places = [] } = await request.json();
+
+
+
     await connectToDB();
 
-    const {name , email , password , phone , age , places : []} = await  request.json();
 
     const user =  new User({
         name,

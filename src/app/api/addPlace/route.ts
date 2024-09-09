@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request :NextRequest ,  response : NextResponse){
     await connectToDB();
 
-    const {title , date , description , address , photo , creator , Visting} = await request.json();
+    const {title , date , description , address , photo  , Visting , creator } = await request.json();
 
     const place =  new Place({
         title,
@@ -13,18 +13,19 @@ export async function POST(request :NextRequest ,  response : NextResponse){
         description,
         address,
         photo,
-        creator,
+        creator , 
         Visting
     });
 
 
     try{
         await place.save();
+        console.log(place)
 
-        return Response.json({message : "places added sucessfully"});
+        return NextResponse.json({message : "places added sucessfully"});
     }
 
     catch(err){
-        return Response.json({message : "failed to add places"});
+        return NextResponse.json({message : "failed to add places"});
     }
 }
