@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request :NextRequest ,  response : NextResponse){
     await connectToDB();
 
-    const {title , date , description , address , photo  , Visting , creator } = await request.json();
+    const {title , date , description , address , photo  , visiting , creator } = await request.json();
 
     const place =  new Place({
         title,
@@ -14,7 +14,7 @@ export async function POST(request :NextRequest ,  response : NextResponse){
         address,
         photo,
         creator , 
-        Visting
+        visiting,
     });
 
 

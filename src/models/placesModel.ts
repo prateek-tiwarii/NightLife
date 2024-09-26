@@ -7,7 +7,7 @@ const placeSchema = new mongoose.Schema({
     address: { type: String, required: true },
     photo : {type : String , required : true},
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
-    Visting  : {type: Boolean, required : true}
+    visiting  : {type: Boolean, required : true}
 });
 
 

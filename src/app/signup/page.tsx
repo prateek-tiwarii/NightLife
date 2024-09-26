@@ -1,66 +1,131 @@
-import React from 'react'
-import { Button } from "@/components/ui/button"
+"use client";
+
+import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-
-
-
-import Link from 'next/link'
-
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import axios from "axios";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    phone: '',
+    age: ''
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,  
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.post("/api/register", formData);
+      if (response.data.redirectTo) {
+        router.push(response.data.redirectTo); 
+        console.log(response);
+      }
+  }
+     catch (e) {
+      setError("Error submitting the form");
+      console.error("Error in submitting the form", e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className='flex justify-center items-center h-dvh'>
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle className='text-3xl font-bold'>Sign-Up</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit}>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Enter your name"
+                />
 
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter your email"
+                />
 
-    <Card className="w-[350px] ">
-          <CardHeader>
-            <CardTitle className='text-3xl font-bold'>Sign-Up</CardTitle>
-            {/* <CardDescription>Deploy your new project in one-click.</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                    <form action= " "  className='flex gap-3 flex-col'>
-                    <Label htmlFor="name">Name</Label>
-                    <Input type='text' placeholder="Name please" />
-                  <Label htmlFor="name">Email</Label>
-                  <Input type='email' placeholder="Enter your email id " />
-                  <Label htmlFor="name">Password</Label>
-                  <Input type='Password' placeholder="Enter your password " />
-                    <Label htmlFor="name">Phone</Label>
-                    <Input type='number' placeholder="Phone number" />
-                    <Label htmlFor="name">Age</Label>
-                    <Input type='number' placeholder="Age" />
-    
-                  </form>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                
-                  
-                </div>
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Enter your password"
+                />
+
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  type="number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Enter your phone number"
+                />
+
+                <Label htmlFor="age">Age</Label>
+                <Input
+                  type="number"
+                  name="age"
+                  value={formData.age}
+                  onChange={handleInputChange}
+                  placeholder="Enter your age"
+                />
+
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? "Registering..." : "Register"}
+                </Button>
               </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-between flex-col gap-3">
-            <Button>Register</Button>
-    
-            <Link href={'/login'}>Alredy have a account ?Login</Link>
-          </CardFooter>
-        </Card>
-    
-    
-        </div>
-  )
-}
+            </div>
+          </form>
+        </CardContent>
+        <CardFooter className="flex justify-between flex-col gap-3">
+          <Link href={'/login'}>Already have an account? Login</Link>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+};
 
-export default Page
+export default Page;
