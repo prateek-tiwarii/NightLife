@@ -1,12 +1,11 @@
 import { connectToDB } from "@/utils/connectToDB";
 import User from "@/models/userModel";
 import { NextResponse , NextRequest } from "next/server";
-import { redirect } from "next/navigation";
 import {hash} from 'bcryptjs';
 
 export  async function POST( request:NextRequest , res:NextResponse){
 
-    const { name, email, password, phone, age, places = [] } = await request.json();
+    const { name, email, password, gender, age  } = await request.json();
 
     await connectToDB();
 
@@ -16,7 +15,7 @@ export  async function POST( request:NextRequest , res:NextResponse){
         return NextResponse.json({message : 'User Already Exists'});
     }
 
-    if(!name || !email || !password || !phone || !age){
+    if(!name || !email || !password || !gender || !age){
         return NextResponse.json({message : 'Please fill all the fields'});
     }
 
@@ -28,7 +27,7 @@ export  async function POST( request:NextRequest , res:NextResponse){
         name,
         email,
         password : hashedPass,
-        phone,
+        gender,
         age,      
     });
     

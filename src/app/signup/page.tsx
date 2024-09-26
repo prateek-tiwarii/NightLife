@@ -14,6 +14,16 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 const Page = () => {
 
@@ -23,7 +33,7 @@ const Page = () => {
     name: '',
     email: '',
     password: '',
-    phone: '',
+    gender: '',
     age: ''
   });
 
@@ -35,6 +45,13 @@ const Page = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,  
+    });
+  };
+
+  const handleGenderChange = (value) => {
+    setFormData({
+      ...formData,
+      gender: value, 
     });
   };
 
@@ -95,14 +112,26 @@ const Page = () => {
                   placeholder="Enter your password"
                 />
 
-                <Label htmlFor="phone">Phone</Label>
-                <Input
-                  type="number"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="Enter your phone number"
-                />
+               <Label htmlFor="gender">Gender</Label>
+               <Select
+               value= {formData.gender}
+               onValueChange = {handleGenderChange}
+
+               >
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select Gender" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {/* <SelectLabel>Fruits</SelectLabel> */}
+          <SelectItem value="male">Male</SelectItem>
+          <SelectItem value="female">Female</SelectItem>
+          <SelectItem value="others">Others</SelectItem>
+
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+
 
                 <Label htmlFor="age">Age</Label>
                 <Input
