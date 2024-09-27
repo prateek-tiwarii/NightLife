@@ -2,9 +2,7 @@ import mongoose from "mongoose";
 import User from "./userModel";
 
 const profileSchema = new mongoose.Schema({
-    name : {type: mongoose.Schema.Types.ObjectId, required: true , ref: 'User'},
-    age : {type: mongoose.Schema.Types.ObjectId, required: true , ref: 'User'},
-    gender : {type: mongoose.Schema.Types.ObjectId, required: true , ref: 'User'},
+  user: {type: mongoose.Schema.Types.ObjectId,ref: "User",required: true},
     pic : {type: String, default : "https://www.gravatar.com/avatar/?d=identicon"},
     bio : {type: String, required : true},
     location : {type: String, required : true},
@@ -17,11 +15,14 @@ const profileSchema = new mongoose.Schema({
           },
           message: "You can select up to 5 interests only.",
         },
+      },
 
-     eduction : {type: String, required : true },   
-      work : {type: String, required : true },
+    education : {type: String, required : true },   
+    work : {type: String, required : true },
 
 
 
 
-})
+      });
+
+      export const profile = mongoose.models.profile || mongoose.model("profile", profileSchema);

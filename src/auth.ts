@@ -41,7 +41,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
 
 
-        // Return user object directly
+        
         return {
           id: user._id,
           email: user.email,
@@ -51,23 +51,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     })
   ],
   pages: {
-    signIn: '/auth/signin', // Custom sign-in page path if needed
+    signIn: '/auth/signin', 
   },
-  session: {
-    strategy: 'jwt',
-  },
-  callbacks: {
-    async session({ session, token }) {
-      // Add user ID to the session token
-      session.user.id = token.sub;
-      return session;
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.sub = user.id;
-      }
-      return token;
-    }
-  },
-  secret: process.env.NEXTAUTH_SECRET // Make sure this is defined in your .env
+ 
 });
