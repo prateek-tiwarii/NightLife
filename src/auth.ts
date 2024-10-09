@@ -6,6 +6,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import User from './models/userModel';
 import { connectToDB } from './utils/connectToDB';
 
+
 export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
     GoogleProvider({
@@ -38,9 +39,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         if (!isMatch) {
           throw new Error('Incorrect password');
         }
-
-
-
         
         return {
           id: user._id,
@@ -50,8 +48,39 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
     })
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          name: user.name,
+          email: user.email
+        };
+      }
+      return token;
+    },
+    session({ session, token }: { session: any, token: any }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+      }
+      return session;
+    },
+  },
+
+  secret : process.env.AUTH_SECRET,
+  session:{
+    strategy : "jwt",
+  },
+  debug : process.env.NODE_ENV === "development",
+
+
   pages: {
     signIn: '/auth/signin', 
   },
+
+
  
 });

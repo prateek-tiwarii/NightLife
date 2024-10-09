@@ -4,8 +4,6 @@ import { connectToDB } from "@/utils/connectToDB";
 export async function GET(request , response){
     await connectToDB();
 
-    const currentUser = await profile.find({
-        
-    })
+
     
 }
