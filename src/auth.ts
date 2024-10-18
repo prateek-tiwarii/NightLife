@@ -39,6 +39,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         if (!isMatch) {
           throw new Error('Incorrect password');
         }
+
+        console.log('user Found', user);
         
         return {
           id: user._id,
@@ -72,7 +74,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
   },
 
-  secret : process.env.AUTH_SECRET,
+  secret : 'helloHello',
   session:{
     strategy : "jwt",
   },

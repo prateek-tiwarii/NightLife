@@ -12,14 +12,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from 'next/link';
-import { signIn } from 'next-auth/react'; 
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
+import { signIn, auth } from '@/auth'; 
+import { useSession } from "next-auth/react"
 
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { data: session, status } = useSession()
+
+  console.log("Session:", session);
+  
+  
 
   const router = useRouter();
 
