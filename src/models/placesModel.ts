@@ -11,6 +11,6 @@ const placeSchema = new mongoose.Schema({
 });
 
 
-const Place = mongoose.models.Place || mongoose.model('Place', placeSchema);
+const Place = mongoose.models?.Place || mongoose.model('Place', placeSchema);
 
 export default Place;
